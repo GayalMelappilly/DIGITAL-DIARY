@@ -6,16 +6,17 @@
         </div>
     </div>
 
-    <div class="section mt-5">
+    <div class="section">
         <div class="row">
 
             {{#each diary}}
-            <div class="col-sm-6">
-                <div class="card">
+            <div class="col-sm-4 mt-4">
+                <div class="card border-3 rounded border-secondary">
                     <div class="card-body">
                         <h5 class="card-title">{{this.date}}</h5>
-                        <p class="card-text">{{this.content}}</p>
-                        <a href="#" class="btn btn-primary">View</a>
+                        <hr>
+                        <p class="card-text">{{this.limitContent}}...</p>
+                        <a href="/view" class="btn view-btn w-100">View</a>
                     </div>
                 </div>
             </div>
