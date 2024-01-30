@@ -25,7 +25,13 @@ router.post('/compose', (req,res)=>{
     console.log("Diray : "+data)
     res.redirect('/')
   })
+})
 
+router.get('/pages', (req,res)=>{
+  userHelpers.getAllDiary().then((diary)=>{
+    console.log(diary)
+    res.render('pages', {diary});
+  })
 })
 
 module.exports = router;
