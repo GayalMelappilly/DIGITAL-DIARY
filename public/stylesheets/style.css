@@ -151,6 +151,10 @@ label{
   color: white;
 }
 
+input, textarea {
+  background-color: #FDF8F0 !important;
+}
+
 .icon:hover {
   cursor: pointer;
   animation-name: bounce;
@@ -174,4 +178,9 @@ textarea:focus,
 select:focus,
 a:focus {
   outline: none;
+}
+
+.link{
+  color: #323232;
+  font-family: "Domine", serif;
 }

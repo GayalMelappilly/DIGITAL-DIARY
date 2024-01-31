@@ -6,13 +6,7 @@ var logger = require('morgan');
 var db = require('./config/connection.js')
 var hbs = require('express-handlebars')
 var session = require('express-session')
-const verifyLogin = (req,res,next)=>{
-  if(req.session.loggedIn){
-    next()
-  }else{
-    res.redirect('/signup')
-  }
-}
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -36,6 +30,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: 'asdfghjkl',
+  resave: false,
+  saveUninitialized: true
+}));
 
 db.connect((err) => {
   if (!err) {

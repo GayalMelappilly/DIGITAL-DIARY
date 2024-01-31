@@ -1,6 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var userHelpers = require('../helpers/user-helpers')
+const verifyLogin = (req,res,next)=>{
+  if(req.session.loggedIn){
+    next()
+  }else{
+    res.redirect('/users/signup')
+  }
+}
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -10,7 +17,7 @@ router.get('/', function(req, res, next) {
   })
 });
 
-router.get('/compose', (req,res)=>{
+router.get('/compose', verifyLogin, (req,res)=>{
   res.render('compose')
 })
 
@@ -59,21 +66,11 @@ router.post('/edit/:id', (req,res)=>{
 router.get('/view/:id', (req,res)=>{
   let id = req.params.id
   userHelpers.findDiary(id).then((viewDiary)=>{
-    res.render('view', {viewDiary})
+    let content = viewDiary.content.replace(/\r\n/g, '<br>');
+    res.render('view', {viewDiary, content})
   })
 })
 
-router.get('/signup', (req,res)=>{
-  res.render('signup')
-})
 
-router.post('/signup', (req,res)=>{
-  let user = req.body
-  console.log(user)
-  userHelpers.signupUser(user).then((data)=>{
-    console.log(data)
-    res.redirect('/')
-  })
-})
 
 module.exports = router;
