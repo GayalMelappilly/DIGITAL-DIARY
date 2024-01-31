@@ -44,7 +44,6 @@ router.get('/delete/:id', (req,res)=>{
 router.get('/edit/:id', (req,res)=>{
   let id = req.params.id
   userHelpers.findDiary(id).then((editDiary)=>{
-    console.log(editDiary)
     res.render('edit', {editDiary})
   })
 })
@@ -61,6 +60,19 @@ router.get('/view/:id', (req,res)=>{
   let id = req.params.id
   userHelpers.findDiary(id).then((viewDiary)=>{
     res.render('view', {viewDiary})
+  })
+})
+
+router.get('/signup', (req,res)=>{
+  res.render('signup')
+})
+
+router.post('/signup', (req,res)=>{
+  let user = req.body
+  console.log(user)
+  userHelpers.signupUser(user).then((data)=>{
+    console.log(data)
+    res.redirect('/')
   })
 })
 

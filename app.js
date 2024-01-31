@@ -5,6 +5,14 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var db = require('./config/connection.js')
 var hbs = require('express-handlebars')
+var session = require('express-session')
+const verifyLogin = (req,res,next)=>{
+  if(req.session.loggedIn){
+    next()
+  }else{
+    res.redirect('/signup')
+  }
+}
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
