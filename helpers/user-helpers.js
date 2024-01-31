@@ -12,8 +12,8 @@ module.exports = {
     },
 
     getAllDiary: () => {
-        return new Promise((resolve, reject) => {
-            let diaries = db.get().collection(collection.DIARY_COLLECTION).find().toArray()
+        return new Promise(async(resolve, reject) => {
+            let diaries = await db.get().collection(collection.DIARY_COLLECTION).find().toArray()
             resolve(diaries)
         })
     },
@@ -42,8 +42,8 @@ module.exports = {
     },
 
     findDiary: (id)=>{
-        return new Promise ((resolve, reject)=>{
-            let diary = db.get().collection(collection.DIARY_COLLECTION).findOne({_id: new objectId(id)})
+        return new Promise (async(resolve, reject)=>{
+            let diary = await db.get().collection(collection.DIARY_COLLECTION).findOne({_id: new objectId(id)})
             resolve(diary)
         })
     },
@@ -53,6 +53,20 @@ module.exports = {
             db.get().collection(collection.USER_COLLECTION).insertOne(user).then((data)=>{
                 resolve(data)
             })
+        })
+    },
+
+    userCheck: (userEmail)=>{
+        return new Promise (async (resolve, reject)=>{
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({email: userEmail})
+            resolve(user)
+        })
+    },
+
+    loginCheck: (userEmail, userPassword)=>{
+        return new Promise (async(resolve, reject)=>{
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({email: userEmail, password: userPassword})
+            resolve(user)
         })
     }
 }
