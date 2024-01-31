@@ -20,7 +20,7 @@ module.exports = {
 
     removeDiary: (id)=>{
         return new Promise ((resolve,reject)=>{
-            db.get().collection(colleciton.DIARY_COLLECTION).removeOne({_id: objectId(id)}).then((data)=>{
+            db.get().collection(colleciton.DIARY_COLLECTION).deleteOne({_id: new objectId(id)}).then((data)=>{
                 resolve(data)
             })
         })

@@ -34,4 +34,15 @@ router.get('/pages', (req,res)=>{
   })
 })
 
+router.get('/edit', (req,res)=>{
+  res.render('edit')
+})
+
+router.get('/delete/:id', (req,res)=>{
+  let id = req.params.id
+  userHelpers.removeDiary(id).then((data)=>{
+    res.redirect('/pages')
+  })
+})
+
 module.exports = router;
