@@ -35,7 +35,9 @@ router.post('/compose', (req, res) => {
     limitContent: req.body.content.slice(0, 60)
   }
 
-  userHelpers.addDiary(diary).then((data) => {
+  let userInfo = req.session.user
+
+  userHelpers.addDiary(userInfo.email,diary).then((data) => {
     // console.log("Diray : "+data)
     res.redirect('/')
   })

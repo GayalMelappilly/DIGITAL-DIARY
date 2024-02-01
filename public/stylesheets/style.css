@@ -1,6 +1,6 @@
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px "Domine", serif;
 }
 
 body::-webkit-scrollbar {
@@ -164,17 +164,22 @@ input, textarea {
 .dropdown{
   display: inline-block;
   background-color: #FDF8F0;
-  border-color: #323232;
-  border-width: 5px;
+  border: #323232 3px;
+  border-style: solid;
+  border-radius: 4px;
   font-family: "Domine", serif !important;
 }
 
 .dropdown-menu{
   background-color: #FDF8F0 !important;
-  border: #323232;
+  border: #323232 3px solid;
   color: #323232;
   font-family: "Domine", serif;
-  width: 3rem !important;
+  min-width: 2rem !important;
+}
+
+.profile{
+  font-family: "Domine", serif;
 }
 
 input:-webkit-autofill,

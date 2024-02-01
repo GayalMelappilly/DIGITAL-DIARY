@@ -3,7 +3,7 @@ var collection = require('../config/collection.js')
 var objectId = require('mongodb').ObjectId
 
 module.exports = {
-    addDiary: (data) => {
+    addDiary: (userEmail, data) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collection.DIARY_COLLECTION).insertOne(data).then(() => {
                 resolve(data)
