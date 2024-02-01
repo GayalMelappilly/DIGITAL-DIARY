@@ -33,7 +33,7 @@ router.post('/login', (req, res)=>{
     if(userFound){
       req.session.loggedIn = true
       req.session.user = userFound
-      res.render('index')
+      res.redirect('/')
     }else{
       res.redirect('/users/login')
     }
@@ -41,6 +41,7 @@ router.post('/login', (req, res)=>{
 })
 
 router.get('/logout', (req,res)=>{
+  console.log('LOGOUT : '+req.session.user)
   req.session.destroy()
   res.redirect('/')
 })

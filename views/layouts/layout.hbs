@@ -31,14 +31,14 @@
           <a class="nav-item nav-link" href="/pages">Pages</a>
           {{#if loginStatus}}
           <div class="dropdown show">
-            <a class="btn btn-secondary dropdown-toggle" role="button" id="dropdownMenuLink"
+            <a class="btn border-3 dropdown-toggle" role="button" id="dropdownMenuLink"
               data-bs-toggle='dropdown' aria-haspopup="true" aria-expanded="false">
               {{userInfo.fname}}
             </a>
 
             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-              <a class="dropdown-item" href="/profile">Profile</a>
-              <a class="dropdown-item" href="/logout">Logout</a>
+              <a class="dropdown-item" href="/users/profile">Profile</a>
+              <a class="dropdown-item" href="/users/logout">Logout</a>
             </div>
           </div>
           {{else}}

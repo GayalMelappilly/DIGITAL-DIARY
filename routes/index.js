@@ -23,7 +23,9 @@ router.get('/', function (req, res, next) {
 });
 
 router.get('/compose', verifyLogin, (req, res) => {
-  res.render('compose')
+  var loginStatus = true
+  var userInfo = req.session.user
+  res.render('compose', { loginStatus, userInfo })
 })
 
 router.post('/compose', (req, res) => {
@@ -40,9 +42,11 @@ router.post('/compose', (req, res) => {
 })
 
 router.get('/pages', verifyLogin, (req, res) => {
+  var loginStatus = true
+  var userInfo = req.session.user
   userHelpers.getAllDiary().then((diary) => {
     // console.log(diary)
-    res.render('pages', { diary });
+    res.render('pages', { diary, loginStatus, userInfo });
   })
 })
 

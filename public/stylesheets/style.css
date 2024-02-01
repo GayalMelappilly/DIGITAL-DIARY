@@ -161,6 +161,22 @@ input, textarea {
   -moz-animation-name: bounce;
 }
 
+.dropdown{
+  display: inline-block;
+  background-color: #FDF8F0;
+  border-color: #323232;
+  border-width: 5px;
+  font-family: "Domine", serif !important;
+}
+
+.dropdown-menu{
+  background-color: #FDF8F0 !important;
+  border: #323232;
+  color: #323232;
+  font-family: "Domine", serif;
+  width: 3rem !important;
+}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
