@@ -15,8 +15,8 @@ router.get('/', function (req, res, next) {
     let loginStatus = true
     let userInfo = req.session.user
     let email = req.session.user.email
-    userHelpers.getAllDiary(email).then((diary) => {
-      res.render('index', {diary, loginStatus, userInfo})
+    userHelpers.getAllDiary(email).then((data) => {
+      res.render('index', {data, loginStatus, userInfo})
     })
   }else{
     let loginStatus = false
@@ -38,8 +38,10 @@ router.post('/compose', (req, res) => {
   }
 
   let userInfo = req.session.user
+  let email = req.session.user.email
+  console.log(email)
 
-  userHelpers.addDiary(userInfo.email, diary).then((data) => {
+  userHelpers.addDiary(email, diary).then((data) => {
     // console.log("Diray : "+data)
     res.redirect('/')
   })
@@ -49,40 +51,40 @@ router.get('/pages', verifyLogin, (req, res) => {
   let loginStatus = true
   let userInfo = req.session.user
   let email = req.session.user.email
-  userHelpers.getAllDiary(email).then((diary) => {
+  userHelpers.getAllDiary(email).then((data) => {
     // console.log(diary)
-    res.render('pages', { diary, loginStatus, userInfo });
+    res.render('pages', { data, loginStatus, userInfo });
   })
 })
 
 router.get('/delete/:id', (req, res) => {
-  let id = req.params.id
+  let date = req.params.id
   let email = req.session.user.email
-  userHelpers.removeDiary(email, id).then((data) => {
+  userHelpers.removeDiary(email, date).then((data) => {
     res.redirect('/pages')
   })
 })
 
 router.get('/edit/:id', (req, res) => {
-  let id = req.params.id
+  let date = req.params.id
   let email = req.session.user.email
-  userHelpers.findDiary(email, id).then((editDiary) => {
+  userHelpers.findDiary(email, date).then((editDiary) => {
     res.render('edit', { editDiary })
   })
 })
 
 router.post('/edit/:id', (req, res) => {
-  let id = req.params.id
+  let date = req.params.id
   let updatedDiary = req.body
-  userHelpers.editDiary(id, updatedDiary).then((data) => {
+  userHelpers.editDiary(updatedDiary, date).then((data) => {
     res.redirect('/pages')
   })
 })
 
 router.get('/view/:id', (req, res) => {
-  let id = req.params.id
+  let date = req.params.id
   let email = req.session.user.email
-  userHelpers.findDiary(email, id).then((viewDiary) => {
+  userHelpers.findDiary(email, date).then((viewDiary) => {
     let content = viewDiary.content.replace(/\r\n/g, '<br>');
     res.render('view', { viewDiary, content })
   })

@@ -3,27 +3,31 @@ var collection = require('../config/collection.js')
 var objectId = require('mongodb').ObjectId
 
 module.exports = {
-    addDiary: (userEmail, data) => {
+    addDiary: async (userEmail, DiaryContent) => {
 
-        let userDiary = {
+        let user = {
             email: userEmail,
-            diary: []
+            diary: [DiaryContent]
         }
 
-        let userFound = db.get().collection(collection.DIARY_COLLECTION).findOne({ email: userEmail })
+        let userFound = await db.get().collection(collection.DIARY_COLLECTION).findOne({ email : userEmail })
 
         if (!userFound) {
+            console.log("USER NOT FOUND")
             return new Promise((resolve, reject) => {
-                db.get().collection(collection.DIARY_COLLECTION).insertOne({ userDiary }).then((data) => {
+                db.get().collection(collection.DIARY_COLLECTION).insertOne(user).then((data) => {
                     resolve(data)
                 })
             })
         } else {
+            console.log('USER FOUND')
             return new Promise((resolve, reject) => {
                 db.get().collection(collection.DIARY_COLLECTION).updateOne({email: userEmail}, {
                     $push: {
-                        diary: data
+                        diary: DiaryContent
                     }
+                }).then((diary)=>{
+                    resolve(diary)
                 })
             })
         }
@@ -36,17 +40,21 @@ module.exports = {
         })
     },
 
-    removeDiary: (userEmail, id) => {
+    removeDiary: (userEmail, diaryDate) => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collection.DIARY_COLLECTION).deleteOne({ _id: new objectId(id) }).then((data) => {
-                resolve(data)
+            db.get().collection(collection.DIARY_COLLECTION).updateOne({ email : userEmail }, {
+                $pull: {
+                    diary: {
+                        date: diaryDate
+                    }
+                }
             })
         })
     },
 
-    editDiary: (id, updatedDiary) => {
+    editDiary: (updatedDiary, diaryDate) => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collection.DIARY_COLLECTION).updateOne({ _id: new objectId(id) },
+            db.get().collection(collection.DIARY_COLLECTION).updateOne({ diary : {$elemMatch : {date : diaryDate}}},
                 {
                     $set: {
                         date: updatedDiary.date,
@@ -59,9 +67,9 @@ module.exports = {
         })
     },
 
-    findDiary: (id) => {
+    findDiary: (email, diaryDate) => {
         return new Promise(async (resolve, reject) => {
-            let diary = await db.get().collection(collection.DIARY_COLLECTION).findOne({ _id: new objectId(id) })
+            let diary = await db.get().collection(collection.DIARY_COLLECTION).findOne({ diary: {$elemMatch : {date: diaryDate}} })
             resolve(diary)
         })
     },

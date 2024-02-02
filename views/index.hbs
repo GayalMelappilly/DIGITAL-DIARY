@@ -9,14 +9,14 @@
     <div class="section">
         <div class="row">
 
-            {{#each diary}}
+            {{#each data.diary}}
             <div class="col-sm-4 mt-4">
                 <div class="card border-3 rounded border-secondary">
                     <div class="card-body">
                         <h5 class="card-title">{{this.date}}</h5>
                         <hr>
                         <p class="card-text">{{this.limitContent}}...</p>
-                        <a href="/view/{{this._id}}" class="btn view-btn w-100">View</a>
+                        <a href="/view/{{this.date}}" class="btn view-btn w-100">View</a>
                     </div>
                 </div>
             </div>
