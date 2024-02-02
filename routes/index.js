@@ -11,20 +11,22 @@ const verifyLogin = (req, res, next) => {
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  userHelpers.getAllDiary().then((diary) => {
-    if (req.session.loggedIn) {
-      var loginStatus = true
-      var userInfo = req.session.user
-    } else {
-      var loginStatus = false
-    }
-    res.render('index', { diary, loginStatus, userInfo });
-  })
+  if (req.session.loggedIn) {
+    let loginStatus = true
+    let userInfo = req.session.user
+    let email = req.session.user.email
+    userHelpers.getAllDiary(email).then((diary) => {
+      res.render('index', {diary, loginStatus, userInfo})
+    })
+  }else{
+    let loginStatus = false
+    res.render('index', { loginStatus });
+  }
 });
 
 router.get('/compose', verifyLogin, (req, res) => {
-  var loginStatus = true
-  var userInfo = req.session.user
+  let loginStatus = true
+  let userInfo = req.session.user
   res.render('compose', { loginStatus, userInfo })
 })
 
@@ -37,16 +39,17 @@ router.post('/compose', (req, res) => {
 
   let userInfo = req.session.user
 
-  userHelpers.addDiary(userInfo.email,diary).then((data) => {
+  userHelpers.addDiary(userInfo.email, diary).then((data) => {
     // console.log("Diray : "+data)
     res.redirect('/')
   })
 })
 
 router.get('/pages', verifyLogin, (req, res) => {
-  var loginStatus = true
-  var userInfo = req.session.user
-  userHelpers.getAllDiary().then((diary) => {
+  let loginStatus = true
+  let userInfo = req.session.user
+  let email = req.session.user.email
+  userHelpers.getAllDiary(email).then((diary) => {
     // console.log(diary)
     res.render('pages', { diary, loginStatus, userInfo });
   })
@@ -54,14 +57,16 @@ router.get('/pages', verifyLogin, (req, res) => {
 
 router.get('/delete/:id', (req, res) => {
   let id = req.params.id
-  userHelpers.removeDiary(id).then((data) => {
+  let email = req.session.user.email
+  userHelpers.removeDiary(email, id).then((data) => {
     res.redirect('/pages')
   })
 })
 
 router.get('/edit/:id', (req, res) => {
   let id = req.params.id
-  userHelpers.findDiary(id).then((editDiary) => {
+  let email = req.session.user.email
+  userHelpers.findDiary(email, id).then((editDiary) => {
     res.render('edit', { editDiary })
   })
 })
@@ -76,7 +81,8 @@ router.post('/edit/:id', (req, res) => {
 
 router.get('/view/:id', (req, res) => {
   let id = req.params.id
-  userHelpers.findDiary(id).then((viewDiary) => {
+  let email = req.session.user.email
+  userHelpers.findDiary(email, id).then((viewDiary) => {
     let content = viewDiary.content.replace(/\r\n/g, '<br>');
     res.render('view', { viewDiary, content })
   })
