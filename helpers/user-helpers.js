@@ -10,7 +10,7 @@ module.exports = {
             diary: [DiaryContent]
         }
 
-        let userFound = await db.get().collection(collection.DIARY_COLLECTION).findOne({ email : userEmail })
+        let userFound = await db.get().collection(collection.DIARY_COLLECTION).findOne({ email: userEmail })
 
         if (!userFound) {
             console.log("USER NOT FOUND")
@@ -22,11 +22,11 @@ module.exports = {
         } else {
             console.log('USER FOUND')
             return new Promise((resolve, reject) => {
-                db.get().collection(collection.DIARY_COLLECTION).updateOne({email: userEmail}, {
+                db.get().collection(collection.DIARY_COLLECTION).updateOne({ email: userEmail }, {
                     $push: {
                         diary: DiaryContent
                     }
-                }).then((diary)=>{
+                }).then((diary) => {
                     resolve(diary)
                 })
             })
@@ -35,14 +35,14 @@ module.exports = {
 
     getAllDiary: (userEmail) => {
         return new Promise(async (resolve, reject) => {
-            let diaries = await db.get().collection(collection.DIARY_COLLECTION).findOne({email: userEmail})
+            let diaries = await db.get().collection(collection.DIARY_COLLECTION).findOne({ email: userEmail })
             resolve(diaries)
         })
     },
 
     removeDiary: (userEmail, diaryDate) => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collection.DIARY_COLLECTION).updateOne({ email : userEmail }, {
+            db.get().collection(collection.DIARY_COLLECTION).updateOne({ email: userEmail }, {
                 $pull: {
                     diary: {
                         date: diaryDate
@@ -54,7 +54,7 @@ module.exports = {
 
     editDiary: (updatedDiary, diaryDate) => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collection.DIARY_COLLECTION).updateOne({ diary : {$elemMatch : {date : diaryDate}}},
+            db.get().collection(collection.DIARY_COLLECTION).updateOne({ diary: { $elemMatch: { date: diaryDate } } },
                 {
                     $set: {
                         date: updatedDiary.date,
@@ -69,7 +69,7 @@ module.exports = {
 
     findDiary: (email, diaryDate) => {
         return new Promise(async (resolve, reject) => {
-            let diary = await db.get().collection(collection.DIARY_COLLECTION).findOne({ diary: {$elemMatch : {date: diaryDate}} })
+            let diary = await db.get().collection(collection.DIARY_COLLECTION).findOne({email: email, "diary.date" : diaryDate})
             resolve(diary)
         })
     },
