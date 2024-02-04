@@ -21,7 +21,7 @@ module.exports = {
             console.log("USER NOT FOUND")
             return new Promise((resolve, reject) => {
                 db.get().collection(collection.DIARY_COLLECTION).insertOne(user).then((data) => {
-                    console.log("DATA: "+data)
+                    console.log("DATA: " + data)
                     resolve(data)
                 })
             })
@@ -51,28 +51,35 @@ module.exports = {
         })
     },
 
-    removeDiary: (userEmail, diaryDate) => {
+    removeDiary: (userEmail, id) => {
         return new Promise((resolve, reject) => {
             db.get().collection(collection.DIARY_COLLECTION).updateOne({ email: userEmail }, {
                 $pull: {
                     diary: {
-                        date: diaryDate
+                        _id: new objectId(id)
                     }
                 }
+            }).then((data) => {
+                resolve(data)
             })
         })
     },
 
-    editDiary: (updatedDiary, diaryDate) => {
+    editDiary: (email, updatedDiary, id) => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collection.DIARY_COLLECTION).updateOne({ diary: { $elemMatch: { date: diaryDate } } },
+            db.get().collection(collection.DIARY_COLLECTION).updateOne({ email: email, diary: {
+                $elemMatch: {
+                    _id: new objectId(id)
+                }
+            } },
                 {
                     $set: {
-                        date: updatedDiary.date,
-                        content: updatedDiary.content,
-                        limitContent: updatedDiary.content.slice(0, 60)
+                        "diary.$.date" : updatedDiary.date,
+                        "diary.$.content" : updatedDiary.content,
+                        "diary.$.limitContent" : updatedDiary.limitContent
                     }
                 }).then((data) => {
+                    console.log(data)
                     resolve(data)
                 })
         })
@@ -82,8 +89,8 @@ module.exports = {
         return new Promise(async (resolve, reject) => {
             let diary = await db.get().collection(collection.DIARY_COLLECTION).aggregate([
                 {
-                    $match : {
-                        email : email
+                    $match: {
+                        email: email
                     }
                 },
                 {
@@ -91,7 +98,7 @@ module.exports = {
                 },
                 {
                     $match: {
-                        "diary._id" : new objectId(id)
+                        "diary._id": new objectId(id)
                     }
                 },
                 {

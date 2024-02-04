@@ -7,12 +7,12 @@
                 <div class="card-body">
                     <div class="card-title d-flex bd-highlight">
                         <h2 class="flex-grow-1 bd-highlight">{{this.date}}</h2>
-                        <a href="/edit/{{this.date}}"><img class="bd-highlight icon" src="icons/edit.svg" style="height: 2.5rem;"></a>
-                        <a href="/delete/{{this.date}}"><img class="bd-highlight icon" src="icons/delete.svg" style="height: 2.5rem;"></a>
+                        <a href="/edit/{{this._id}}"><img class="bd-highlight icon" src="icons/edit.svg" style="height: 2.5rem;"></a>
+                        <a href="/delete/{{this._id}}"><img class="bd-highlight icon" src="icons/delete.svg" style="height: 2.5rem;"></a>
                     </div>
                     <hr>
                     <p class="card-text">{{this.limitContent}}...</p>
-                    <a href="/view/{{this.date}}" class="btn view-btn w-100">View</a>
+                    <a href="/view/{{this._id}}" class="btn view-btn w-100">View</a>
                 </div>
             </div>
         </div>

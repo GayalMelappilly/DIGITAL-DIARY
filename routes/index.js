@@ -58,25 +58,33 @@ router.get('/pages', verifyLogin, (req, res) => {
 })
 
 router.get('/delete/:id', (req, res) => {
-  let date = req.params.id
+  let id = req.params.id
   let email = req.session.user.email
-  userHelpers.removeDiary(email, date).then((data) => {
+  userHelpers.removeDiary(email, id).then((data) => {
     res.redirect('/pages')
   })
 })
 
 router.get('/edit/:id', (req, res) => {
-  let date = req.params.id
+  let id = req.params.id
   let email = req.session.user.email
-  userHelpers.findDiary(email, date).then((editDiary) => {
+  userHelpers.findDiary(email, id).then((data) => {
+    let editDiary = data[0].diary
     res.render('edit', { editDiary })
   })
 })
 
 router.post('/edit/:id', (req, res) => {
-  let date = req.params.id
-  let updatedDiary = req.body
-  userHelpers.editDiary(updatedDiary, date).then((data) => {
+  console.log('reached!')
+  let id = req.params.id
+  let email = req.session.user.email
+  let updatedDiary = {
+    date: req.body.date,
+    content: req.body.content,
+    limitContent: req.body.content.slice(0, 60)
+  }
+  console.log("EDITED : "+updatedDiary)
+  userHelpers.editDiary(email, updatedDiary, id).then((data) => {
     res.redirect('/pages')
   })
 })
@@ -87,7 +95,7 @@ router.get('/view/:id', (req, res) => {
   userHelpers.findDiary(email, id).then((viewDiary) => {
     let diary = viewDiary[0].diary
     let content = viewDiary[0].diary.content.replace(/\r\n/g, '<br>');
-    console.log("VIEW : "+diary)
+    // console.log("VIEW : "+diary)
     res.render('view', { diary, content })
   })
 })
