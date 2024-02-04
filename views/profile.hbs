@@ -1,0 +1,9 @@
+<div class="container profile">
+    <div class="h1">{{userInfo.fname}} {{userInfo.sname}}</div>
+    <div class="h6">Email : {{userInfo.email}}</div>
+    <hr>
+    <div class="h5">Total diaries : {{length}}</div>
+    <hr>
+    <div class="h5">Dates</div>
+    <div class="p">{{#each diary}} {{this.date}} <br> {{/each}}</div>
+</div>

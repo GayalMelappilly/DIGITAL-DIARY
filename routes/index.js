@@ -16,7 +16,8 @@ router.get('/', function (req, res, next) {
     let userInfo = req.session.user
     let email = req.session.user.email
     userHelpers.getAllDiary(email).then((data) => {
-      res.render('index', {data, loginStatus, userInfo})
+      
+      res.render('index', { data, loginStatus, userInfo})
     })
   }else{
     let loginStatus = false
@@ -97,6 +98,18 @@ router.get('/view/:id', (req, res) => {
     let content = viewDiary[0].diary.content.replace(/\r\n/g, '<br>');
     // console.log("VIEW : "+diary)
     res.render('view', { diary, content })
+  })
+})
+
+router.get('/profile', verifyLogin, (req, res) => {
+  let loginStatus = true
+  let email = req.session.user.email
+  let userInfo = req.session.user
+  userHelpers.getAllDiary(email).then((diaries)=>{
+    let length = diaries.diary.length
+    console.log("Diaries : "+diaries.diary.length)
+    let diary = diaries.diary
+    res.render('profile', {loginStatus, userInfo, diary, length})
   })
 })
 

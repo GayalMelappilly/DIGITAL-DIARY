@@ -7,6 +7,7 @@
     </div>
 
     <div class="section">
+        {{#if data.diary}}
         <div class="row">
 
             {{#each data.diary}}
@@ -23,5 +24,8 @@
             {{/each}}
 
         </div>
+        {{else}}
+        <div class="h3 text-center domine mt-3">No diaries yet!</div>
+        {{/if}}
     </div>
 </div>

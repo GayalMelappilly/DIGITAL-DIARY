@@ -168,6 +168,7 @@ input, textarea {
   border-style: solid;
   border-radius: 4px;
   font-family: "Domine", serif !important;
+  padding-top: 2px;
 }
 
 .dropdown-menu{
@@ -203,5 +204,18 @@ a:focus {
 
 .link{
   color: #323232;
+  font-family: "Domine", serif;
+}
+
+.footer-icon{
+  width: 20px;
+  height: 20px;
+}
+
+footer{
+  font-family: "Domine", serif;
+}
+
+.domine{
   font-family: "Domine", serif;
 }

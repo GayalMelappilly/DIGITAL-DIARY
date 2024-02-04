@@ -55,12 +55,4 @@ router.get('/logout', (req, res) => {
   res.redirect('/')
 })
 
-router.get('/profile', verifyLogin, (req, res) => {
-  var loginStatus = true
-  var userInfo = req.session.user
-  userHelpers.getAllDiary().then((data)=>{
-    
-  })
-})
-
 module.exports = router;

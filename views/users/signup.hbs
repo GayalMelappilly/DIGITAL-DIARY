@@ -2,7 +2,7 @@
     <form method="post" action="/users/signup">
         <div class="form-group">
             <label for="fname">First Name</label>
-            <input type="text" class="form-control border-secondary border-3 mb-3" id="fname" name="fname"
+            <input required type="text" class="form-control border-secondary border-3 mb-3" id="fname" name="fname"
                 placeholder="Enter first name">
         </div>
         <div class="form-group">
@@ -12,13 +12,13 @@
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Email address</label>
-            <input type="email" class="form-control border-secondary border-3" id="exampleInputEmail1" name="email"
+            <input required type="email" class="form-control border-secondary border-3" id="exampleInputEmail1" name="email"
                 aria-describedby="emailHelp" placeholder="Enter email">
             <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Password</label>
-            <input type="password" class="form-control border-secondary border-3 mb-3" id="exampleInputPassword1" name="password"
+            <input required type="password" class="form-control border-secondary border-3 mb-3" id="exampleInputPassword1" name="password"
                 placeholder="Password">
         </div>
         <a href="/users/login" class="link">I have an account.</a>
