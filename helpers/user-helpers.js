@@ -30,7 +30,12 @@ module.exports = {
             return new Promise((resolve, reject) => {
                 db.get().collection(collection.DIARY_COLLECTION).updateOne({ email: userEmail }, {
                     $push: {
-                        diary: DiaryContent
+                        diary: {
+                            _id: new objectId(),
+                            date: DiaryContent.date,
+                            content: DiaryContent.content,
+                            limitContent: DiaryContent.limitContent
+                        }
                     }
                 }).then((diary) => {
                     resolve(diary)
@@ -73,9 +78,33 @@ module.exports = {
         })
     },
 
-    findDiary: (email, diaryDate) => {
+    findDiary: (email, id) => {
         return new Promise(async (resolve, reject) => {
-            let diary = await db.get().collection(collection.DIARY_COLLECTION).findOne({email: email, "diary.date" : diaryDate})
+            let diary = await db.get().collection(collection.DIARY_COLLECTION).aggregate([
+                {
+                    $match : {
+                        email : email
+                    }
+                },
+                {
+                    $unwind: "$diary"
+                },
+                {
+                    $match: {
+                        "diary._id" : new objectId(id)
+                    }
+                },
+                {
+                    $project: {
+                        _id: 0,
+                        "diary._id": 1,
+                        "diary.date": 1,
+                        "diary.content": 1,
+                        "diary.limitContent": 1
+                    }
+                }
+            ]).toArray()
+            console.log(diary)
             resolve(diary)
         })
     },

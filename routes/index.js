@@ -82,12 +82,12 @@ router.post('/edit/:id', (req, res) => {
 })
 
 router.get('/view/:id', (req, res) => {
-  let date = req.params.id
+  let id = req.params.id
   let email = req.session.user.email
-  userHelpers.findDiary(email, date).then((viewDiary) => {
-    // let diary = viewDiary.diary
-    // console.log(diary)
-    console.log(viewDiary)
+  userHelpers.findDiary(email, id).then((viewDiary) => {
+    let diary = viewDiary[0].diary
+    let content = viewDiary[0].diary.content.replace(/\r\n/g, '<br>');
+    console.log("VIEW : "+diary)
     res.render('view', { diary, content })
   })
 })
