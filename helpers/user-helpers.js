@@ -7,7 +7,12 @@ module.exports = {
 
         let user = {
             email: userEmail,
-            diary: [DiaryContent]
+            diary: [{
+                _id: new objectId(),
+                date: DiaryContent.date,
+                content: DiaryContent.content,
+                limitContent: DiaryContent.limitContent
+            }]
         }
 
         let userFound = await db.get().collection(collection.DIARY_COLLECTION).findOne({ email: userEmail })
@@ -16,6 +21,7 @@ module.exports = {
             console.log("USER NOT FOUND")
             return new Promise((resolve, reject) => {
                 db.get().collection(collection.DIARY_COLLECTION).insertOne(user).then((data) => {
+                    console.log("DATA: "+data)
                     resolve(data)
                 })
             })
