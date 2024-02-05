@@ -107,8 +107,6 @@ router.get('/profile', (req, res) => {
   let userDetails = req.session.user
   let userInfo = userDetails.user
   let joinedDate = userDetails.joinedDate
-  let diaryName = userDetails.diaryName
-  console.log("NEW NAME : "+diaryName)
 
   userHelpers.getAllDiary(email).then((diaries) => {
     if (!diaries) {
@@ -117,7 +115,11 @@ router.get('/profile', (req, res) => {
       var length = diaries.diary.length
       var diary = diaries.diary
     }
-    res.render('profile', { loginStatus, userInfo, diary, length, joinedDate, diaryName })
+    userHelpers.userCheck(email).then((userData) => {
+      var diaryName = userData.user.diaryName
+      console.log("NEW NAME : " + diaryName)
+      res.render('profile', { loginStatus, userInfo, diary, length, joinedDate, diaryName })
+    })
   })
 })
 
@@ -129,7 +131,7 @@ router.post('/profile', (req, res) => {
   let userInfo = userDetails.user
   let joinedDate = userDetails.joinedDate
   let diaryName = req.body.name
-  console.log("NEW NAME : "+diaryName)
+  console.log("NEW NAME P : " + diaryName)
 
   userHelpers.getAllDiary(email).then((diaries) => {
     if (!diaries) {
@@ -138,7 +140,9 @@ router.post('/profile', (req, res) => {
       var length = diaries.diary.length
       var diary = diaries.diary
     }
-    res.render('profile', { loginStatus, userInfo, diary, length, joinedDate, diaryName })
+    userHelpers.addDiaryName(email, diaryName).then(() => {
+      res.render('profile', { loginStatus, userInfo, diary, length, joinedDate, diaryName })
+    })
   })
 })
 

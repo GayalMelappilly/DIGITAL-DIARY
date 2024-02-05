@@ -132,9 +132,10 @@ module.exports = {
     },
 
     userCheck: (userEmail) => {
-        return new Promise(async (resolve, reject) => {
-            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ "user.email": userEmail })
-            resolve(user)
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.USER_COLLECTION).findOne({ "user.email": userEmail }).then((user)=>{
+                resolve(user)
+            })
         })
     },
 
@@ -149,7 +150,7 @@ module.exports = {
         return new Promise((resolve, reject) => {
             db.get().collection(collection.USER_COLLECTION).updateOne({ "user.email": email }, {
                 $set: {
-                    diaryName: name
+                    diaryName : name
                 }
             }).then((data) => {
                 resolve(data)
