@@ -16,10 +16,10 @@ router.get('/', function (req, res, next) {
     let userInfo = req.session.user.user
     let email = req.session.user.email
     userHelpers.getAllDiary(email).then((data) => {
-      
-      res.render('index', { data, loginStatus, userInfo})
+
+      res.render('index', { data, loginStatus, userInfo })
     })
-  }else{
+  } else {
     let loginStatus = false
     res.render('index', { loginStatus });
   }
@@ -84,7 +84,7 @@ router.post('/edit/:id', (req, res) => {
     content: req.body.content,
     limitContent: req.body.content.slice(0, 60)
   }
-  console.log("EDITED : "+updatedDiary)
+  console.log("EDITED : " + updatedDiary)
   userHelpers.editDiary(email, updatedDiary, id).then((data) => {
     res.redirect('/pages')
   })
@@ -101,43 +101,96 @@ router.get('/view/:id', (req, res) => {
   })
 })
 
-router.get('/profile', verifyLogin, (req, res) => {
+router.get('/profile', (req, res) => {
   let loginStatus = true
   let email = req.session.user.email
   let userDetails = req.session.user
   let userInfo = userDetails.user
   let joinedDate = userDetails.joinedDate
   let diaryName = userDetails.diaryName
-  console.log("NAME : "+diaryName)
-    userHelpers.getAllDiary(email).then((diaries)=>{
-      if(!diaries){
-        var length = 0
-      }else{
-        var length = diaries.diary.length
-        var diary = diaries.diary
-      }
-      res.render('profile', {loginStatus, userInfo, diary, length, joinedDate, diaryName})
+  console.log("NEW NAME : "+diaryName)
+
+  userHelpers.getAllDiary(email).then((diaries) => {
+    if (!diaries) {
+      var length = 0
+    } else {
+      var length = diaries.diary.length
+      var diary = diaries.diary
+    }
+    res.render('profile', { loginStatus, userInfo, diary, length, joinedDate, diaryName })
+  })
+})
+
+router.post('/profile', (req, res) => {
+  console.log('REACHED')
+  let loginStatus = true
+  let email = req.session.user.email
+  let userDetails = req.session.user
+  let userInfo = userDetails.user
+  let joinedDate = userDetails.joinedDate
+  let diaryName = req.body.name
+  console.log("NEW NAME : "+diaryName)
+
+  userHelpers.getAllDiary(email).then((diaries) => {
+    if (!diaries) {
+      var length = 0
+    } else {
+      var length = diaries.diary.length
+      var diary = diaries.diary
+    }
+    res.render('profile', { loginStatus, userInfo, diary, length, joinedDate, diaryName })
+  })
+})
+
+router.get('/change-diary-name', (req, res) => {
+  console.log("REACHED CHANGE")
+  let loginStatus = true
+  let email = req.session.user.email
+  let userDetails = req.session.user
+  let userInfo = userDetails.user
+  let joinedDate = userDetails.joinedDate
+  let diaryName = ''
+  userHelpers.getAllDiary(email).then((diaries) => {
+    if (!diaries) {
+      var length = 0
+    } else {
+      var length = diaries.diary.length
+      var diary = diaries.diary
+    }
+    userHelpers.addDiaryName(email, diaryName).then(() => {
+      res.render('profile', { loginStatus, userInfo, diary, length, joinedDate, diaryName })
     })
-})
-
-router.post('/profile', (req,res)=>{
-  let diaryName = req.body.diaryName
-  console.log(diaryName)
-  let userInfo = req.session.user
-  let email = userInfo.user.email
-  userHelpers.addDiaryName(email, diaryName).then((updatedInfo)=>{
-    console.log(updatedInfo)
-    res.redirect('/profile')
   })
 })
 
-router.get('/change-diary-name', (req,res)=>{
-  let diaryName = null
-  let userInfo = req.session.user
-  let email = userInfo.user.email
-  userHelpers.addDiaryName(email, diaryName).then((updatedDiary)=>{
-    res.redirect('/profile')
-  })
-})
+// router.get('/change-diary-name', (req,res)=>{
+//   let loginStatus = true
+//   let email = req.session.user.email
+//   let userDetails = req.session.user
+//   let userInfo = userDetails.user
+//   let joinedDate = userDetails.joinedDate
+//   let diaryName = ''
+
+//     userHelpers.getAllDiary(email).then((diaries)=>{
+//       if(!diaries){
+//         var length = 0
+//       }else{
+//         var length = diaries.diary.length
+//         var diary = diaries.diary
+//       }
+//       res.render('profile', {loginStatus, userInfo, diary, length, joinedDate, diaryName})
+//     })
+// })
+
+// router.post('/change-diary-name', (req,res)=>{
+//   console.log('REACHED!')
+//   var diaryName = req.body.name
+//   // console.log("NAME : "+diaryName)
+//   let userInfo = req.session.user
+//   let email = userInfo.user.email
+//   userHelpers.addDiaryName(email, diaryName).then((updatedDiary)=>{
+//     res.redirect('/profile')
+//   })
+// })
 
 module.exports = router;

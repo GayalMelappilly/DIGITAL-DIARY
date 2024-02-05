@@ -151,8 +151,8 @@ module.exports = {
                 $set: {
                     diaryName: name
                 }
-            }).then((diaryName) => {
-                resolve(diaryName)
+            }).then((data) => {
+                resolve(data)
             })
         })
     }

@@ -8,7 +8,7 @@
     <hr>
     {{#if diaryName}}
     <div class="diary-name">
-        <div class="h5">Diary Name : {{diaryName}} <a href="/change-diary-name"><button
+        <div class="h5">Diary Name : {{diaryName}} <a class="ps-2" href="/change-diary-name"><button
                     class="diary-name-submit rounded">
                     Change
                 </button></a></div>
@@ -16,8 +16,8 @@
     {{else}}
     <div class="diary-name">
         <div class="h5">Diary Name : </div>
-        <form method="post">
-            <input name="diaryName" class="diary-name-input rounded" type="text">
+        <form method="post" action="/profile">
+            <input name="name" id="diary-name" class="diary-name-input rounded" type="text">
             <input class="diary-name-submit rounded" type="submit">
         </form>
     </div>
