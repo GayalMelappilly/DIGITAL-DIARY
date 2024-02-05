@@ -219,3 +219,26 @@ footer{
 .domine{
   font-family: "Domine", serif;
 }
+
+.diary-name-input{
+  width: 8rem;
+  border: 2px solid #323232 !important;
+  height: 2rem;
+  font-size: 1.2rem;
+}
+
+.diary-name-submit{
+  color: #FDF8F0;
+  background-color: #323232 !important;
+  border: 2px solid #323232 !important;
+  height: 2rem;
+  font-size: 1.2rem;
+}
+
+.diary-name-submit:hover{
+  color: #FDF8F0;
+  background-color: #000000 !important;
+  border: 2px solid #323232 !important;
+  height: 2rem;
+  font-size: 1.2rem;
+}

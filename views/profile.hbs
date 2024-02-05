@@ -4,6 +4,26 @@
     <hr>
     <div class="h5">Total diaries : {{length}}</div>
     <hr>
+    <div class="h5">Joined on : {{joinedDate}}</div>
+    <hr>
+    {{#if diaryName}}
+    <div class="diary-name">
+        <div class="h5">Diary Name : {{diaryName}} <a href="/change-diary-name"><button
+                    class="diary-name-submit rounded">
+                    Change
+                </button></a></div>
+    </div>
+    {{else}}
+    <div class="diary-name">
+        <div class="h5">Diary Name : </div>
+        <form method="post">
+            <input name="diaryName" class="diary-name-input rounded" type="text">
+            <input class="diary-name-submit rounded" type="submit">
+        </form>
+    </div>
+    {{/if}}
+
+    <hr>
     <div class="h5">Dates</div>
     <div class="p">{{#each diary}} {{this.date}} <br> {{/each}}</div>
 </div>

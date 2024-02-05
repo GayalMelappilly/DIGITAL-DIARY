@@ -67,16 +67,18 @@ module.exports = {
 
     editDiary: (email, updatedDiary, id) => {
         return new Promise((resolve, reject) => {
-            db.get().collection(collection.DIARY_COLLECTION).updateOne({ email: email, diary: {
-                $elemMatch: {
-                    _id: new objectId(id)
+            db.get().collection(collection.DIARY_COLLECTION).updateOne({
+                email: email, diary: {
+                    $elemMatch: {
+                        _id: new objectId(id)
+                    }
                 }
-            } },
+            },
                 {
                     $set: {
-                        "diary.$.date" : updatedDiary.date,
-                        "diary.$.content" : updatedDiary.content,
-                        "diary.$.limitContent" : updatedDiary.limitContent
+                        "diary.$.date": updatedDiary.date,
+                        "diary.$.content": updatedDiary.content,
+                        "diary.$.limitContent": updatedDiary.limitContent
                     }
                 }).then((data) => {
                     console.log(data)
@@ -116,9 +118,14 @@ module.exports = {
         })
     },
 
+    //USER
+
     signupUser: (user) => {
+        let d = new Date()
+        let month = d.getMonth() + 1
+        let date = String(d.getDate() + '-' + month + '-' + d.getFullYear())
         return new Promise((resolve, reject) => {
-            db.get().collection(collection.USER_COLLECTION).insertOne(user).then((data) => {
+            db.get().collection(collection.USER_COLLECTION).insertOne({ user, joinedDate: date, diaryName: null }).then((data) => {
                 resolve(data)
             })
         })
@@ -126,15 +133,27 @@ module.exports = {
 
     userCheck: (userEmail) => {
         return new Promise(async (resolve, reject) => {
-            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userEmail })
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ "user.email": userEmail })
             resolve(user)
         })
     },
 
     loginCheck: (userEmail, userPassword) => {
         return new Promise(async (resolve, reject) => {
-            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ email: userEmail, password: userPassword })
+            let user = await db.get().collection(collection.USER_COLLECTION).findOne({ "user.email": userEmail, "user.password": userPassword })
             resolve(user)
+        })
+    },
+
+    addDiaryName: (email, name) => {
+        return new Promise((resolve, reject) => {
+            db.get().collection(collection.USER_COLLECTION).updateOne({ "user.email": email }, {
+                $set: {
+                    diaryName: name
+                }
+            }).then((diaryName) => {
+                resolve(diaryName)
+            })
         })
     }
 }
